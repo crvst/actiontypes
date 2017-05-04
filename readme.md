@@ -19,12 +19,8 @@ export const STRING_CONSTANTS = actionTypes(
        delimeter: '-', // Optional. Separator between namespace and short form, default is `/`
     }
 );
-```
 
-```js
-import { STRING_CONSTANTS } from '...';
-
-const { OPEN, NOT_DECLARED } = STRING_CONSTANTS;
+const { OPEN } = STRING_CONSTANTS;
 
 console.log(STRING_CONSTANTS);
 
@@ -35,10 +31,10 @@ console.log(STRING_CONSTANTS);
   TOGGLE: '@@namespace/TOGGLE' }
 */
 
-console.log(OPEN, NOT_DECLARED);
+console.log(OPEN);
 
 /*
-'@@namespace/OPEN', undefined
+'@@namespace/OPEN'
 */
 
 ```

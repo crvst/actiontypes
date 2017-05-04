@@ -5,9 +5,9 @@ const defaultOptions = {
   delimiter: '/',
 };
 const errors = {
-  noargs: Error('Provide at least 2 strings as arguments'),
-  namespaceOnly: Error('It\'s not enough to provide the namespace only'),
-  types: TypeError('Only strings are allowed as identifiers')
+  noargs: Error(`Provide at least 2 strings as arguments`),
+  namespaceOnly: Error(`It's not enough to provide a namespace only`),
+  types: TypeError(`Namespace and short forms must be stings and options must be a plain object`),
 };
 const actionTypes = (namespace, ...rest) => {
   if (typeof namespace !== 'string') {
