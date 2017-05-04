@@ -9,7 +9,7 @@ const errors = {
   namespaceOnly: Error(`It's not enough to provide a namespace only`),
   types: TypeError(`Namespace and short forms must be stings and options must be a plain object`),
 };
-const actionTypes = (namespace, ...rest) => {
+const actionTypes = (namespace: string, ...rest: Array) => {
   if (typeof namespace !== 'string') {
     throw errors.types;
   }

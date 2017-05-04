@@ -7,7 +7,7 @@ It works like this:
 ```js
 import actionTypes from 'actiontypes';
 
-export const STRING_CONSTANTS = actionTypes(
+export const namespacedActions = actionTypes(
     'namespace', // Mandatory
     'OPEN', // At least one string must be provided
     'CLOSE',
@@ -16,25 +16,40 @@ export const STRING_CONSTANTS = actionTypes(
     'TOGGLE',
     {
        prefix: '@@', // Optional. Prepends to all strings
-       delimeter: '-', // Optional. Separator between namespace and short form, default is `/`
+       delimeter: '\\', // Optional. Separator between namespace and short form, default is `/`
     }
 );
 
-const { OPEN } = STRING_CONSTANTS;
+const { OPEN } = namespacedAction;
 
-console.log(STRING_CONSTANTS);
+console.log(namespacedAction);
 
 /*
-{ OPEN: '@@namespace/OPEN',
-  CLOSE: '@@namespace/CLOSE',
-  TYPO: '@@namespace/TYPO',
-  TOGGLE: '@@namespace/TOGGLE' }
+{ OPEN: '@@namespace\OPEN',
+  CLOSE: '@@namespace\CLOSE',
+  TYPO: '@@namespace\TYPO',
+  TOGGLE: '@@namespace\TOGGLE' }
 */
 
 console.log(OPEN);
 
 /*
 '@@namespace/OPEN'
+*/
+
+// No options provided:
+
+const simpleActions = actionTypes(
+  'simple',
+  'HELLO',
+  'THERE'
+);
+
+console.log(simpleActions);
+
+/*
+{ HELLO: 'simple/HELLO',
+  THERE: 'simple/THERE' }
 */
 
 ```
