@@ -1,3 +1,4 @@
+// @flow
 import isPlainObject from 'lodash.isplainobject';
 
 const defaultOptions = {
@@ -35,7 +36,7 @@ const actionTypes = (namespace: string, ...rest: Array) => {
   return actions.reduce((obj, shortForm) => {
     const forcedUppercaseForm = shortForm.toUpperCase();
     /*
-     * Skip and do not overwrite constants that has been already declared without any warning
+     * Skip and do not overwrite constants that have been already declared without any warning
      * */
     if (!obj.hasOwnProperty(forcedUppercaseForm)) {
       Object.defineProperty(obj, forcedUppercaseForm, {

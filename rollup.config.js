@@ -9,12 +9,12 @@ export default {
   entry: 'src/index.js',
   format: 'cjs',
   plugins: [
+    flow(),
     commonjs({
       sourceMap: false,
     }),
     resolve(),
     babel(),
-    flow(),
     uglify(),
   ],
 };
