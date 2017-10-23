@@ -2,54 +2,64 @@
 
 A dead simple a bit opinionated utility to generate namespaced strings for Flux standard actions.
 
-It works like this:
+## Usage
+
+### Basic
 
 ```js
 import actionTypes from 'actiontypes';
 
-export const namespacedActions = actionTypes(
-    'namespace', // Mandatory
-    'OPEN', // At least one string must be provided
-    'CLOSE',
-    'CLOSE', // Skips the duplicates
-    'tYPO', // Forces uppercase
-    'TOGGLE',
-    {
-       prefix: '@@', // Optional. Prepends to all strings
-       delimeter: '\\', // Optional. Separator between namespace and short form, default is `/`
-    }
-);
-
-const { OPEN } = namespacedAction;
-
-console.log(namespacedAction);
-
-/*
-{ OPEN: '@@namespace\OPEN',
-  CLOSE: '@@namespace\CLOSE',
-  TYPO: '@@namespace\TYPO',
-  TOGGLE: '@@namespace\TOGGLE' }
-*/
-
-console.log(OPEN);
-
-/*
-'@@namespace/OPEN'
-*/
-
-// No options provided:
-
-const simpleActions = actionTypes(
+const actions = actionTypes(
   'simple',
   'HELLO',
   'THERE'
 );
+```
 
-console.log(simpleActions);
+You'll got:
 
-/*
-{ HELLO: 'simple/HELLO',
-  THERE: 'simple/THERE' }
-*/
+```js
+console.log(actions);
+```
 
+```js
+{
+  HELLO: 'simple/HELLO',
+  THERE: 'simple/THERE'
+}
+```
+
+
+### Configuration
+
+```js
+import actionTypes from 'actiontypes';
+
+const complexActions = actionTypes(
+    'namespace', // Mandatory
+    'OPEN', // At least one string must be provided
+    'CLOSE',
+    'CLOSE', // Skips duplicates
+    'tYPO', // Forces uppercase
+    'TOGGLE',
+    {
+       prefix: '@@', // Optional. Prepends to all strings
+       delimeter: '--', // Optional. Separator between namespace and short form, default is `/`
+    }
+);
+```
+
+And you'll got:
+
+```
+console.log(complexActions);
+```
+
+```
+{
+  OPEN: '@@namespace--OPEN',
+  CLOSE: '@@namespace--CLOSE',
+  TYPO: '@@namespace--TYPO',
+  TOGGLE: '@@namespace--TOGGLE'
+}
 ```
