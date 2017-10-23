@@ -1,6 +1,6 @@
 {
   "name": "actiontypes",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Generate namespaced strings for Flux standard actions",
   "main": "dist/index.js",
   "repository": {
@@ -40,7 +40,7 @@
   "scripts": {
     "start": "npm t && npm run build",
     "build": "./node_modules/rollup/bin/rollup -c",
-    "test": "./node_modules/jest/bin/jest"
+    "test": "./node_modules/jest/bin/jest.js --color"
   },
   "keywords": [
     "flux",

@@ -35,11 +35,11 @@ console.log(actions);
 ```js
 import actionTypes from 'actiontypes';
 
-const complexActions = actionTypes(
+const actions = actionTypes(
     'namespace', // Mandatory
     'OPEN', // At least one string must be provided
     'CLOSE',
-    'CLOSE', // Skips duplicates
+    'close', // Skips duplicates
     'tYPO', // Forces uppercase
     'TOGGLE',
     {
@@ -52,7 +52,7 @@ const complexActions = actionTypes(
 And you'll got:
 
 ```
-console.log(complexActions);
+console.log(actions);
 ```
 
 ```
