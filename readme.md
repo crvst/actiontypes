@@ -51,11 +51,11 @@ const actions = actionTypes(
 
 And you'll got:
 
-```
+```js
 console.log(actions);
 ```
 
-```
+```js
 {
   OPEN: '@@namespace--OPEN',
   CLOSE: '@@namespace--CLOSE',
