@@ -10,11 +10,11 @@ export default {
   format: 'cjs',
   plugins: [
     flow(),
+    babel(),
     commonjs({
       sourceMap: false,
     }),
     resolve(),
-    babel(),
     uglify(),
   ],
 };

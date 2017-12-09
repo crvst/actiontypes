@@ -17,8 +17,9 @@
     "stage-0"
   ],
   "plugins": [
-    "transform-decorators-legacy",
     "transform-class-properties",
-    "transform-flow-strip-types"
+    "transform-decorators-legacy",
+    "transform-flow-strip-types",
+    "transform-object-rest-spread"
   ]
 }

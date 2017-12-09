@@ -43,8 +43,8 @@ const actions = actionTypes(
     'tYPO', // Forces uppercase
     'TOGGLE',
     {
-       prefix: '@@', // Optional. Prepends to all strings
-       delimeter: '--', // Optional. Separator between namespace and short form, default is `/`
+       prefix: '@@', // Optional. Prepends to all strings. Default is `''`.
+       delimeter: '--', // Optional. Separator between namespace and short form. Default is `/`.
     }
 );
 ```

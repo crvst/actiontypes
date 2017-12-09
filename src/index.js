@@ -27,7 +27,7 @@ const actionTypes = (namespace: string, ...rest: Array) => {
     /* Do nothing. Most common scenario */
   } else if (isPlainObject(tail)) {
     actions = body;
-    options = Object.assign({}, defaultOptions, tail);
+    options = { ...defaultOptions, ...tail };
   } else {
     throw errors.types;
   }
