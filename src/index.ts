@@ -1,17 +1,22 @@
-// @flow
-import isPlainObject from 'lodash.isplainobject';
+interface IOptions {
+  prefix: string;
+  delimiter?: string;
+}
 
-const defaultOptions = {
-  prefix: '',
-  delimiter: '/',
+// tslint:disable no-var-requires
+const isPlainObject = require("lodash.isplainobject");
+const defaultOptions: IOptions = {
+  delimiter: "/",
+  prefix: "",
 };
 const errors = {
-  noargs: Error(`Provide at least 2 strings as arguments`),
   namespaceOnly: Error(`It's not enough to provide a namespace only`),
+  noargs: Error(`Provide at least 2 strings as arguments`),
   types: TypeError(`Namespace and short forms must be stings and options must be a plain object`),
 };
-const actionTypes = (namespace: string, ...rest: Array) => {
-  if (typeof namespace !== 'string') {
+
+function actionTypes(namespace: string, ...rest: Array<string | IOptions>) {
+  if (typeof namespace !== "string") {
     throw errors.types;
   }
   if (arguments.length === 0) {
@@ -20,32 +25,32 @@ const actionTypes = (namespace: string, ...rest: Array) => {
     throw errors.namespaceOnly;
   }
   let actions = rest;
-  let options = defaultOptions;
+  let options: IOptions = defaultOptions;
   const body = rest.slice(0, -1);
-  const tail = rest[rest.length - 1];
-  if (typeof tail === 'string') {
-    /* Do nothing. Most common scenario */
-  } else if (isPlainObject(tail)) {
+  const tail: IOptions | string = rest[rest.length - 1];
+  if (isPlainObject(tail)) {
     actions = body;
+    // TODO
+    // @ts-ignore isPlainObject return no ambient types
     options = { ...defaultOptions, ...tail };
-  } else {
+  } else if (typeof tail !== "string") {
     throw errors.types;
   }
   const { prefix, delimiter } = options;
 
-  return actions.reduce((obj, shortForm) => {
+  return actions.reduce((obj: { [actionType: string]: string; }, shortForm: string) => {
     const forcedUppercaseForm = shortForm.toUpperCase();
     /*
      * Skip and do not overwrite constants that have been already declared without any warning
      * */
     if (!obj.hasOwnProperty(forcedUppercaseForm)) {
       Object.defineProperty(obj, forcedUppercaseForm, {
-        value: prefix + namespace + delimiter + forcedUppercaseForm,
         enumerable: true,
+        value: prefix + namespace + delimiter + forcedUppercaseForm,
       });
     }
     return obj;
   }, {});
-};
+}
 
 export default actionTypes;
