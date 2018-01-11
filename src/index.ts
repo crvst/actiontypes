@@ -3,6 +3,10 @@ interface IOptions {
   delimiter?: string;
 }
 
+interface INamespacedStrings {
+  [type: string]: string;
+}
+
 // tslint:disable no-var-requires
 const isPlainObject = require("lodash.isplainobject");
 const defaultOptions: IOptions = {
@@ -15,7 +19,7 @@ const errors = {
   types: TypeError(`Namespace and short forms must be stings and options must be a plain object`),
 };
 
-function actionTypes(namespace: string, ...rest: Array<string | IOptions>) {
+function actionTypes(namespace: string, ...rest: Array<string | IOptions>): INamespacedStrings {
   if (typeof namespace !== "string") {
     throw errors.types;
   }
@@ -38,7 +42,7 @@ function actionTypes(namespace: string, ...rest: Array<string | IOptions>) {
   }
   const { prefix, delimiter } = options;
 
-  return actions.reduce((obj: { [actionType: string]: string; }, shortForm: string) => {
+  return actions.reduce((obj: INamespacedStrings, shortForm: string) => {
     const forcedUppercaseForm = shortForm.toUpperCase();
     /*
      * Skip and do not overwrite constants that have been already declared without any warning
