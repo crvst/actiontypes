@@ -1,5 +1,5 @@
 interface IOptions {
-  prefix: string;
+  prefix?: string;
   delimiter?: string;
 }
 
@@ -14,9 +14,9 @@ const defaultOptions: IOptions = {
   prefix: "",
 };
 const errors = {
-  namespaceOnly: Error(`It's not enough to provide a namespace only`),
-  noargs: Error(`Provide at least 2 strings as arguments`),
-  types: TypeError(`Namespace and short forms must be stings and options must be a plain object`),
+  namespaceOnly: Error("It's not enough to provide a namespace only"),
+  noargs: Error("Provide at least 2 strings as arguments"),
+  types: TypeError("Namespace and short forms must be stings and options must be a plain object"),
 };
 
 function actionTypes(namespace: string, ...rest: Array<string | IOptions>): INamespacedStrings {
@@ -35,7 +35,7 @@ function actionTypes(namespace: string, ...rest: Array<string | IOptions>): INam
   if (isPlainObject(tail)) {
     actions = body;
     // TODO
-    // @ts-ignore isPlainObject return no ambient types
+    // @ts-ignore isPlainObject returns no ambient types
     options = { ...defaultOptions, ...tail };
   } else if (typeof tail !== "string") {
     throw errors.types;
