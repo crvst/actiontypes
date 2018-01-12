@@ -1,8 +1,8 @@
-import actionNames from ".";
+import actionTypes from ".";
 
 describe("Normal scenario", () => {
   it("Produces an object with namespaced strings", () => {
-    expect(actionNames("namespace", "ONE", "TWO", "3"))
+    expect(actionTypes("namespace", "ONE", "TWO", "3"))
     .toEqual({
       ONE: "namespace/ONE",
       TWO: "namespace/TWO",
@@ -11,7 +11,7 @@ describe("Normal scenario", () => {
   });
 
   it("Skips repeated keys", () => {
-    expect(actionNames("namespace", "one", "one", "ONE", "oNe"))
+    expect(actionTypes("namespace", "one", "one", "ONE", "oNe"))
     .toEqual({
       ONE: "namespace/ONE",
     });
@@ -19,7 +19,7 @@ describe("Normal scenario", () => {
 
   it("Works well with options", () => {
     expect(
-      actionNames("namespace", "ONE", "one", "3", {
+      actionTypes("namespace", "ONE", "one", "3", {
         delimiter: "",
         prefix: "@@",
       }))
@@ -32,7 +32,7 @@ describe("Normal scenario", () => {
 
 describe("Second argument is an array", () => {
   it("Produces an object with namespaced strings", () => {
-    expect(actionNames("namespace", ["ONE", "TWO", "3"]))
+    expect(actionTypes("namespace", ["ONE", "TWO", "3"]))
     .toEqual({
       ONE: "namespace/ONE",
       TWO: "namespace/TWO",
@@ -42,7 +42,7 @@ describe("Second argument is an array", () => {
 
   it("Skips repeated keys", () => {
     expect(
-      actionNames("namespace", ["one", "one", "ONE", "oNe"]))
+      actionTypes("namespace", ["one", "one", "ONE", "oNe"]))
     .toEqual({
       ONE: "namespace/ONE",
     });
@@ -50,7 +50,7 @@ describe("Second argument is an array", () => {
 
   it("Works well with options", () => {
     expect(
-      actionNames("namespace", ["ONE", "one", "3"], {
+      actionTypes("namespace", ["ONE", "one", "3"], {
         delimiter: "",
         prefix: "@@",
       }))
@@ -65,13 +65,14 @@ describe("Wrong number of arguments passed", () => {
   it("Throws an error when no arguments passed", () => {
     expect(() => {
       // @ts-ignore
-      actionNames();
+      actionTypes();
     }).toThrow();
   });
+
   it("Throws an error when the only argument passed", () => {
     expect(() => {
       // @ts-ignore
-      actionNames("namespace");
+      actionTypes("namespace");
     }).toThrow();
   });
 });
@@ -80,19 +81,21 @@ describe("Wrong arguments' types passed", () => {
   it("Throws an error when no string has passed at all", () => {
     expect(() => {
       // @ts-ignore
-      actionNames(1, { prefix: "--" }, [3]);
+      actionTypes(1, { prefix: "--" }, [3]);
     }).toThrow();
   });
+
   it("Throws an error when the namespace is not a string", () => {
     expect(() => {
       // @ts-ignore
-      actionNames(1, "THROW");
+      actionTypes(1, "THROW");
     }).toThrow();
   });
-  it("Throws an error when the last argument is not a string and not a plain object", () => {
+
+  it("Throws an error when the second argument neither a string nor an array", () => {
     expect(() => {
       // @ts-ignore
-      actionNames("namespace", "THROW", ["prefix", "delimiter"]);
+      actionTypes("namespace", {});
     }).toThrow();
   });
 });

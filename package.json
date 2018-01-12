@@ -1,6 +1,6 @@
 {
   "name": "actiontypes",
-  "version": "0.2.3",
+  "version": "0.3.1",
   "description": "Generate namespaced strings for Flux standard actions",
   "main": "dist/index.js",
   "ts:main": "src/index.ts",

@@ -14,9 +14,10 @@ const defaultOptions: IOptions = {
   prefix: "",
 };
 const errors = {
+  argsType: TypeError("Check the argument's types"),
   namespaceOnly: Error("It's not enough to provide a namespace only"),
+  namespaceType: TypeError("Namespace must be a sting"),
   noargs: Error("Provide at least 2 strings as arguments"),
-  types: TypeError("Namespace and short forms must be stings and options must be a plain object"),
 };
 
 function actionTypes(
@@ -24,16 +25,12 @@ function actionTypes(
   second: string | string[],
   ...rest: Array<string | IOptions>,
 ): INamespacedStrings {
-  if (typeof namespace !== "string") {
-    throw errors.types;
-  }
   if (arguments.length === 0) {
     throw errors.noargs;
+  } else if (typeof namespace !== "string") {
+    throw errors.namespaceType;
   } else if (arguments.length === 1) {
     throw errors.namespaceOnly;
-  } else if (Array.isArray(second) && arguments.length > 3) {
-    /* TODO */
-    throw TypeError();
   }
   let types = [second, ...rest];
   let options: IOptions = defaultOptions;
@@ -50,10 +47,11 @@ function actionTypes(
     types = second;
     const passedOptions = rest[0];
     if (isPlainObject(passedOptions)) {
+      // @ts-ignore isPlainObject returns no ambient types
       options = { ...defaultOptions, ...passedOptions };
     }
   } else {
-    throw errors.types;
+    throw errors.argsType;
   }
   const { prefix, delimiter } = options;
 
