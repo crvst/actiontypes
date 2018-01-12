@@ -19,7 +19,11 @@ const errors = {
   types: TypeError("Namespace and short forms must be stings and options must be a plain object"),
 };
 
-function actionTypes(namespace: string, ...rest: Array<string | IOptions>): INamespacedStrings {
+function actionTypes(
+  namespace: string,
+  second: string | string[],
+  ...rest: Array<string | IOptions>,
+): INamespacedStrings {
   if (typeof namespace !== "string") {
     throw errors.types;
   }
@@ -27,22 +31,33 @@ function actionTypes(namespace: string, ...rest: Array<string | IOptions>): INam
     throw errors.noargs;
   } else if (arguments.length === 1) {
     throw errors.namespaceOnly;
+  } else if (Array.isArray(second) && arguments.length > 3) {
+    /* TODO */
+    throw TypeError();
   }
-  let actions = rest;
+  let types = [second, ...rest];
   let options: IOptions = defaultOptions;
-  const body = rest.slice(0, -1);
-  const tail: IOptions | string = rest[rest.length - 1];
-  if (isPlainObject(tail)) {
-    actions = body;
-    // TODO
-    // @ts-ignore isPlainObject returns no ambient types
-    options = { ...defaultOptions, ...tail };
-  } else if (typeof tail !== "string") {
+  if (typeof second === "string") {
+    const body = rest.slice(0, -1);
+    const tail = rest[rest.length - 1];
+    if (isPlainObject(tail)) {
+      types = [second, ...body];
+      // TODO
+      // @ts-ignore isPlainObject returns no ambient types
+      options = { ...defaultOptions, ...tail };
+    }
+  } else if (Array.isArray(second)) {
+    types = second;
+    const passedOptions = rest[0];
+    if (isPlainObject(passedOptions)) {
+      options = { ...defaultOptions, ...passedOptions };
+    }
+  } else {
     throw errors.types;
   }
   const { prefix, delimiter } = options;
 
-  return actions.reduce((obj: INamespacedStrings, shortForm: string) => {
+  return types.reduce((obj: INamespacedStrings, shortForm: string) => {
     const forcedUppercaseForm = shortForm.toUpperCase();
     /*
      * Skip and do not overwrite constants that have been already declared without any warning

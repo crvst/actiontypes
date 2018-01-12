@@ -2,13 +2,37 @@ import actionNames from ".";
 
 describe("Normal scenario", () => {
   it("Produces an object with namespaced strings", () => {
+    expect(actionNames("namespace", "ONE", "TWO", "3"))
+    .toEqual({
+      ONE: "namespace/ONE",
+      TWO: "namespace/TWO",
+      3: "namespace/3",
+    });
+  });
+
+  it("Skips repeated keys", () => {
+    expect(actionNames("namespace", "one", "one", "ONE", "oNe"))
+    .toEqual({
+      ONE: "namespace/ONE",
+    });
+  });
+
+  it("Works well with options", () => {
     expect(
-      actionNames(
-        "namespace",
-        "ONE",
-        "TWO",
-        "3",
-      ))
+      actionNames("namespace", "ONE", "one", "3", {
+        delimiter: "",
+        prefix: "@@",
+      }))
+    .toEqual({
+      ONE: "@@namespaceONE",
+      3: "@@namespace3",
+    });
+  });
+});
+
+describe("Second argument is an array", () => {
+  it("Produces an object with namespaced strings", () => {
+    expect(actionNames("namespace", ["ONE", "TWO", "3"]))
     .toEqual({
       ONE: "namespace/ONE",
       TWO: "namespace/TWO",
@@ -18,13 +42,7 @@ describe("Normal scenario", () => {
 
   it("Skips repeated keys", () => {
     expect(
-      actionNames(
-        "namespace",
-        "one",
-        "one",
-        "ONE",
-        "oNe",
-      ))
+      actionNames("namespace", ["one", "one", "ONE", "oNe"]))
     .toEqual({
       ONE: "namespace/ONE",
     });
@@ -32,14 +50,10 @@ describe("Normal scenario", () => {
 
   it("Works well with options", () => {
     expect(
-      actionNames(
-        "namespace",
-        "ONE",
-        "one",
-        "3", {
-          delimiter: "",
-          prefix: "@@",
-        }))
+      actionNames("namespace", ["ONE", "one", "3"], {
+        delimiter: "",
+        prefix: "@@",
+      }))
     .toEqual({
       ONE: "@@namespaceONE",
       3: "@@namespace3",
@@ -56,6 +70,7 @@ describe("Wrong number of arguments passed", () => {
   });
   it("Throws an error when the only argument passed", () => {
     expect(() => {
+      // @ts-ignore
       actionNames("namespace");
     }).toThrow();
   });
